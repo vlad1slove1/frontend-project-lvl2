@@ -2,7 +2,7 @@ install:
 		npm ci
 
 link:
-		npm lint
+		npm link
 
 publish:
 		npm publish --dry-run
