@@ -33,6 +33,7 @@
     "jest": "^27.5.1"
   },
   "dependencies": {
+    "@jest/globals": "^27.5.1",
     "commander": "^9.0.0",
     "lodash": "^4.17.21"
   }
