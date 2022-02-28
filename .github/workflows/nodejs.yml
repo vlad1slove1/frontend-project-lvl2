@@ -17,7 +17,7 @@ jobs:
       with:
         node-version: '16.x'
     - run: make install
-    - run: make jest
+    - run: make test
     - run: make lint
     - name: code coverage 
       uses:  paambaati/codeclimate-action@v2.5.7
