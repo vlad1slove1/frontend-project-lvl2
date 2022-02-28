@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import genPath from './genPath.js';
+import readFile from './genPath.js';
 
 const genDiff = (filepath1, filepath2) => {
-  const file1 = genPath(filepath1);
-  const file2 = genPath(filepath2);
+  const file1 = readFile(filepath1);
+  const file2 = readFile(filepath2);
   const keys1 = Object.keys(file1);
   const keys2 = Object.keys(file2);
   const sortedKeys = _.union(keys1, keys2).sort();
