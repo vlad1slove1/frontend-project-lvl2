@@ -17,5 +17,5 @@ test('gediff test .json', () => {
 });
 
 test('gendiff test .yml', () => {
-  expect(genDiff('file1.yml', 'file2.yml')).toEqual(expectedOutput);
+  expect(genDiff('file1.yml', 'file2.yaml')).toEqual(expectedOutput);
 });
