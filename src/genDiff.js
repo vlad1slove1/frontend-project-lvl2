@@ -1,9 +1,14 @@
 import _ from 'lodash';
+import { extname } from 'path';
 import readFile from './readFile.js';
+import parse from './parsers.js';
 
 const genDiff = (filepath1, filepath2) => {
-  const file1 = readFile(filepath1);
-  const file2 = readFile(filepath2);
+  const readFile1 = readFile(filepath1);
+  const readFile2 = readFile(filepath2);
+  const file1 = parse(readFile1, extname(filepath1));
+  const file2 = parse(readFile2, extname(filepath2));
+
   const keys1 = Object.keys(file1);
   const keys2 = Object.keys(file2);
   const sortedKeys = _.union(keys1, keys2).sort();
