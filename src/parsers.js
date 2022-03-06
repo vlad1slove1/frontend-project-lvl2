@@ -9,10 +9,8 @@ const parse = (filename, format) => {
     case '.yaml':
       return load(filename);
     default:
-      console.log('Incorrect file format');
+      throw new Error('Incorrect file format');
   }
-
-  return format;
 };
 
 export default parse;
