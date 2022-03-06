@@ -66,4 +66,4 @@ make test-coverage
 ## ascii:
 
 **display help and gendiff wit flat files**
-[![asciicast](https://asciinema.org/a/473091.svg)](https://asciinema.org/a/473091)
+[![asciicast](https://asciinema.org/a/474275.svg)](https://asciinema.org/a/474275)
