@@ -12,7 +12,7 @@ const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8');
 
 const expectedOutput = readFile('stylishOutput.txt');
 
-test('gediff test .json', () => {
+test('gendiff test .json', () => {
   expect(genDiff('file1.json', 'file2.json')).toEqual(expectedOutput);
 });
 
