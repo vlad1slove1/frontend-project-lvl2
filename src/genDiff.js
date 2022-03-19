@@ -1,7 +1,8 @@
-import _ from 'lodash';
 import { extname } from 'path';
 import readFile from './readFile.js';
 import parse from './parsers.js';
+import genTree from './genTree.js';
+import stylish from './formatters/stylish.js';
 
 const genDiff = (filepath1, filepath2) => {
   const readFile1 = readFile(filepath1);
@@ -9,27 +10,9 @@ const genDiff = (filepath1, filepath2) => {
   const file1 = parse(readFile1, extname(filepath1));
   const file2 = parse(readFile2, extname(filepath2));
 
-  const keys1 = Object.keys(file1);
-  const keys2 = Object.keys(file2);
-  const sortedKeys = _.union(keys1, keys2).sort();
+  const tree = genTree(file1, file2);
 
-  const newArr = [];
-  sortedKeys.map((key) => {
-    if (!_.has(file1, key)) {
-      newArr.push(`  + ${key}: ${file2[key]}`);
-    } else if (!_.has(file2, key)) {
-      newArr.push(`  - ${key}: ${file1[key]}`);
-    } else if (file1[key] !== file2[key]) {
-      newArr.push(`  - ${key}: ${file1[key]}`);
-      newArr.push(`  + ${key}: ${file2[key]}`);
-    } else {
-      newArr.push(`    ${key}: ${file1[key]}`);
-    }
-
-    return null;
-  });
-
-  return ['{', ...newArr, '}'].join('\n');
+  return stylish(tree);
 };
 
 export default genDiff;
