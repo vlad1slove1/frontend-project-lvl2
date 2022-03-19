@@ -67,3 +67,6 @@ make test-coverage
 
 **display help and gendiff wit flat files**
 [![asciicast](https://asciinema.org/a/474275.svg)](https://asciinema.org/a/474275)
+
+**gendiff with nested files**
+[![asciicast](https://asciinema.org/a/478361.svg)](https://asciinema.org/a/478361)
