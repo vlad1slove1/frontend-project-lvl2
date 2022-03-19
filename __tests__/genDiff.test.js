@@ -10,12 +10,12 @@ const __dirname = dirname(__filename);
 const getFixturePath = (filename) => resolve(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8');
 
-const expectedOutput = readFile('flatOutput.txt');
+const expectedOutput = readFile('stylishOutput.txt');
 
 test('gediff test .json', () => {
   expect(genDiff('file1.json', 'file2.json')).toEqual(expectedOutput);
 });
 
-test('gendiff test .yml', () => {
+test('gendiff test .yml and .yaml', () => {
   expect(genDiff('file1.yml', 'file2.yaml')).toEqual(expectedOutput);
 });
