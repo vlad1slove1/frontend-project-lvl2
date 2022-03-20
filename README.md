@@ -70,3 +70,6 @@ make test-coverage
 
 **gendiff with nested files**
 [![asciicast](https://asciinema.org/a/478361.svg)](https://asciinema.org/a/478361)
+
+**plain format of gendiff**
+[![asciicast](https://asciinema.org/a/478779.svg)](https://asciinema.org/a/478779)
