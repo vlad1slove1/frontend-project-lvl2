@@ -1,9 +1,9 @@
-import _ from 'lodash';
+import union from 'lodash/union.js';
 
 const genTree = (file1, file2) => {
   const keys1 = Object.keys(file1);
   const keys2 = Object.keys(file2);
-  const sortedKeys = _.union(keys1, keys2).sort();
+  const sortedKeys = union(keys1, keys2).sort();
 
   const result = sortedKeys.map((key) => {
     const value1 = file1[key];
