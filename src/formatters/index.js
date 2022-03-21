@@ -1,5 +1,6 @@
 import stylish from './stylish.js';
 import plain from './plain.js';
+import json from './json.js';
 
 const diffTree = (tree, format) => {
   switch (format) {
@@ -8,6 +9,9 @@ const diffTree = (tree, format) => {
     }
     case 'plain': {
       return plain(tree);
+    }
+    case 'json': {
+      return json(tree);
     }
     default:
       return null;
