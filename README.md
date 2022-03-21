@@ -73,3 +73,6 @@ make test-coverage
 
 **plain format of gendiff**
 [![asciicast](https://asciinema.org/a/478779.svg)](https://asciinema.org/a/478779)
+
+**gendiff usability**
+[![asciicast](https://asciinema.org/a/479435.svg)](https://asciinema.org/a/479435)
