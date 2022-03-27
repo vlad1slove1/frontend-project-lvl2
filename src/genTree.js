@@ -1,6 +1,6 @@
 import union from 'lodash/union.js';
 
-const genTree = (file1, file2) => {
+const tree = (file1, file2) => {
   const keys1 = Object.keys(file1);
   const keys2 = Object.keys(file2);
   const sortedKeys = union(keys1, keys2).sort();
@@ -13,7 +13,7 @@ const genTree = (file1, file2) => {
       return {
         key,
         type: 'nested',
-        children: genTree(value1, value2),
+        children: tree(value1, value2),
       };
     }
     if (!Object.hasOwn(file2, key)) {
@@ -48,5 +48,7 @@ const genTree = (file1, file2) => {
 
   return result;
 };
+
+const genTree = (file1, file2) => ({ type: 'root', children: tree(file1, file2) });
 
 export default genTree;
