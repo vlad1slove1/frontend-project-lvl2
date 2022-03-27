@@ -1,11 +1,7 @@
-import { dirname, resolve } from 'path';
+import { resolve } from 'path';
 import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const getFixturePath = (filename) => resolve(__dirname, '..', '__fixtures__', filename);
+const getFixturePath = (filename) => resolve(process.cwd(), filename);
 const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8');
 
 export default readFile;
