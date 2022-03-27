@@ -6,7 +6,7 @@ const stringify = (value) => {
   return typeof (value) === 'string' ? `'${value}'` : value;
 };
 
-const buildTree = (nodes) => {
+const plain = (nodes) => {
   const iter = (node, acc = '') => {
     const {
       key,
@@ -18,6 +18,9 @@ const buildTree = (nodes) => {
     } = node;
 
     switch (type) {
+      case 'root': {
+        return children.map((child) => iter(child, key)).join('');
+      }
       case 'nested': {
         return children.map((child) => iter(child, `${acc}${key}.`)).join('');
       }
@@ -38,13 +41,7 @@ const buildTree = (nodes) => {
     }
   };
 
-  return iter(nodes);
-};
-
-const plain = (tree) => {
-  const result = tree.map((node) => buildTree(node));
-
-  return result.join('').replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+  return iter(nodes).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 };
 
 export default plain;
