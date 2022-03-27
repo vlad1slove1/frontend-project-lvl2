@@ -36,9 +36,14 @@ test.each(tests)('gendiff stylish and plain tests', ({
 });
 
 test('format check at null', () => {
-  expect(genDiff('file1.json', 'file2.json', 'format')).toBeNull();
+  const file1 = getFixturePath('file1.json');
+  const file2 = getFixturePath('file2.json');
+  const result = genDiff(file1, file2, 'format');
+  expect(result).toBeNull();
 });
 
 test('format corectness check', () => {
-  expect(() => genDiff('file1.xml', 'file2.json')).toThrow('Incorrect file format');
+  const file1 = getFixturePath('file1.xml');
+  const file2 = getFixturePath('file2.json');
+  expect(() => genDiff(file1, file2)).toThrow('Incorrect file format');
 });
