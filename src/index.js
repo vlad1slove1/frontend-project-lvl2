@@ -1,19 +1,19 @@
-import { program } from 'commander/esm.mjs';
-import genDiff from './genDiff.js';
+import { extname } from 'path';
+import readFile from './readFile.js';
+import parse from './parsers.js';
+import genTree from './genTree.js';
+import diffTree from './formatters/index.js';
 
-const diff = () => {
-  program
-    .name('gendiff')
-    .description('Compares two configuration files and shows a difference.')
-    .version('0.1.0', '-V, --version', 'output the version number')
-    .helpOption('-h, --help', 'output usage information')
-    .option('-f, --format <type>', 'output format', 'stylish')
-    .arguments('<filepath1> <filepath2>')
-    .action((filepath1, filepath2) => {
-      console.log(genDiff(filepath1, filepath2, program.opts().format));
-    });
+const genDiff = (filepath1, filepath2, format = 'stylish') => {
+  const readFile1 = readFile(filepath1);
+  const readFile2 = readFile(filepath2);
 
-  program.parse();
+  const file1 = parse(readFile1, extname(filepath1));
+  const file2 = parse(readFile2, extname(filepath2));
+
+  const tree = genTree(file1, file2);
+
+  return diffTree(tree, format);
 };
 
-export default diff;
+export default genDiff;
