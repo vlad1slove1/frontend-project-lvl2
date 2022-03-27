@@ -9,14 +9,14 @@ const stringify = (value, depth = 1) => {
   const result = keys.map((key) => {
     const prop = value[key];
 
-    return `${indent(depth)}  ${key}: ${stringify(prop, depth + 1)}`;
+    return `${indent(depth + 1)}  ${key}: ${stringify(prop, depth + 1)}`;
   });
 
-  return `{\n${result.join('\n')}\n  ${indent(depth - 1)}}`;
+  return `{\n${result.join('\n')}\n  ${indent(depth)}}`;
 };
 
-const buildTree = (nodes) => {
-  const iter = (node, depth = 1) => {
+const stylish = (nodes) => {
+  const iter = (node, depth = 0) => {
     const {
       key,
       type,
@@ -27,35 +27,32 @@ const buildTree = (nodes) => {
     } = node;
 
     switch (type) {
+      case 'root': {
+        return `${children.map((child) => iter(child, depth + 1)).join('')}`;
+      }
       case 'nested': {
         return `\n${indent(depth)}  ${key}: {${children.map((child) => iter(child, depth + 1)).join('')}\n${indent(depth)}  }`;
       }
       case 'deleted': {
-        return `\n${indent(depth)}- ${key}: ${stringify(value, depth + 1)}`;
+        return `\n${indent(depth)}- ${key}: ${stringify(value, depth)}`;
       }
       case 'added': {
-        return `\n${indent(depth)}+ ${key}: ${stringify(value, depth + 1)}`;
+        return `\n${indent(depth)}+ ${key}: ${stringify(value, depth)}`;
       }
       case 'changed': {
-        const removed = `\n${indent(depth)}- ${key}: ${stringify(removedValue, depth + 1)}`;
-        const added = `\n${indent(depth)}+ ${key}: ${stringify(addedValue, depth + 1)}`;
+        const removed = `\n${indent(depth)}- ${key}: ${stringify(removedValue, depth)}`;
+        const added = `\n${indent(depth)}+ ${key}: ${stringify(addedValue, depth)}`;
         return `${removed}${added}`;
       }
       case 'unchanged': {
-        return `\n${indent(depth)}  ${key}: ${stringify(value, depth + 1)}`;
+        return `\n${indent(depth)}  ${key}: ${stringify(value, depth)}`;
       }
       default:
         return null;
     }
   };
 
-  return iter(nodes);
-};
-
-const stylish = (tree) => {
-  const result = tree.map((node) => buildTree(node));
-
-  return `{${result.join('')}\n}`;
+  return `{${iter(nodes)}\n}`;
 };
 
 export default stylish;
