@@ -1,10 +1,11 @@
 import union from 'lodash/union.js';
 import has from 'lodash/has.js';
+import sortBy from 'lodash/sortBy.js';
 
 const tree = (file1, file2) => {
   const keys1 = Object.keys(file1);
   const keys2 = Object.keys(file2);
-  const sortedKeys = union(keys1, keys2).sort();
+  const sortedKeys = sortBy(union(keys1, keys2));
 
   const result = sortedKeys.map((key) => {
     const value1 = file1[key];
