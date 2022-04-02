@@ -1,4 +1,5 @@
 import union from 'lodash/union.js';
+import has from 'lodash/has.js';
 
 const tree = (file1, file2) => {
   const keys1 = Object.keys(file1);
@@ -16,14 +17,14 @@ const tree = (file1, file2) => {
         children: tree(value1, value2),
       };
     }
-    if (!Object.hasOwn(file2, key)) {
+    if (!has(file2, key)) {
       return {
         key,
         type: 'deleted',
         value: value1,
       };
     }
-    if (!Object.hasOwn(file1, key)) {
+    if (!has(file1, key)) {
       return {
         key,
         type: 'added',
