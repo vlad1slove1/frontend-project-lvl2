@@ -1,19 +1,18 @@
-import { extname } from 'path';
 import readFile from './readFile.js';
 import parse from './parsers.js';
 import genTree from './genTree.js';
-import diffTree from './formatters/index.js';
+import formattedTree from './formatters/index.js';
 
-const genDiff = (filepath1, filepath2, format = 'stylish') => {
-  const readFile1 = readFile(filepath1);
-  const readFile2 = readFile(filepath2);
+const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
+  const fileContent1 = readFile(filepath1);
+  const fileContent2 = readFile(filepath2);
 
-  const file1 = parse(readFile1, extname(filepath1));
-  const file2 = parse(readFile2, extname(filepath2));
+  const parsedFile1 = parse(fileContent1, filepath1.split('.')[1]);
+  const parsedFile2 = parse(fileContent2, filepath2.split('.')[1]);
 
-  const tree = genTree(file1, file2);
+  const tree = genTree(parsedFile1, parsedFile2);
 
-  return diffTree(tree, format);
+  return formattedTree(tree, formatName);
 };
 
 export default genDiff;
