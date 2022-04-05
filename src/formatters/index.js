@@ -2,7 +2,7 @@ import stylish from './stylish.js';
 import plain from './plain.js';
 import json from './json.js';
 
-const diffTree = (tree, format) => {
+const formattedTree = (tree, format) => {
   switch (format) {
     case 'stylish': {
       return stylish(tree);
@@ -14,8 +14,8 @@ const diffTree = (tree, format) => {
       return json(tree);
     }
     default:
-      return null;
+      throw new Error(`Unknown format to generate a tree: '${format}'!`);
   }
 };
 
-export default diffTree;
+export default formattedTree;
