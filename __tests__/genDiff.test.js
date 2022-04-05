@@ -3,6 +3,9 @@ import { dirname, resolve } from 'path';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import genDiff from '../src/index.js';
+import parse from '../src/parsers.js';
+import formattedTree from '../src/genTree.js';
+import diffTree from '../src/formatters/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -12,38 +15,52 @@ const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8');
 
 const tests = [
   {
-    filepath1: 'file1.json', filepath2: 'file2.json', output: 'stylishOutput.txt', format: 'stylish',
+    filename1: 'file1.json', filename2: 'file2.json', output: 'stylishOutput.txt', formatName: 'stylish',
   },
   {
-    filepath1: 'file1.yml', filepath2: 'file2.yaml', output: 'stylishOutput.txt', format: 'stylish',
+    filename1: 'file1.yml', filename2: 'file2.yaml', output: 'stylishOutput.txt', formatName: 'stylish',
   },
   {
-    filepath1: 'file1.json', filepath2: 'file2.json', output: 'plainOutput.txt', format: 'plain',
+    filename1: 'file1.json', filename2: 'file2.json', output: 'plainOutput.txt', formatName: 'plain',
   },
   {
-    filepath1: 'file1.yml', filepath2: 'file2.yaml', output: 'plainOutput.txt', format: 'plain',
+    filename1: 'file1.yml', filename2: 'file2.yaml', output: 'plainOutput.txt', formatName: 'plain',
+  },
+  {
+    filename1: 'file1.json', filename2: 'file2.json', output: 'jsonOutput.txt', formatName: 'json',
+  },
+  {
+    filename1: 'file1.yml', filename2: 'file2.yaml', output: 'jsonOutput.txt', formatName: 'json',
   },
 ];
 
-test.each(tests)('gendiff stylish and plain tests', ({
-  filepath1, filepath2, output, format,
+test.each(tests)('gendiff stylish, plain and json tests', ({
+  filename1, filename2, output, formatName,
 }) => {
-  const file1 = getFixturePath(filepath1);
-  const file2 = getFixturePath(filepath2);
+  const filepath1 = getFixturePath(filename1);
+  const filepath2 = getFixturePath(filename2);
   const expected = readFile(output);
-  const result = genDiff(file1, file2, format);
+  const result = genDiff(filepath1, filepath2, formatName);
   expect(result).toEqual(expected);
 });
 
-test('format check at null', () => {
-  const file1 = getFixturePath('file1.json');
-  const file2 = getFixturePath('file2.json');
-  const result = genDiff(file1, file2, 'format');
-  expect(result).toBeNull();
+test('generate tree with wrong format test', () => {
+  const { filename1 } = tests[0];
+  const { filename2 } = tests[0];
+  const fileContent1 = readFile(filename1);
+  const fileContent2 = readFile(filename2);
+  const parsedFile1 = parse(fileContent1, filename1.split('.')[1]);
+  const parsedFile2 = parse(fileContent2, filename2.split('.')[1]);
+  const tree = formattedTree(parsedFile1, parsedFile2);
+  const wrongFormat = 'xml';
+  expect(() => diffTree(tree, wrongFormat)).toThrow(`Unknown format to generate a tree: '${wrongFormat}'!`);
 });
 
-test('format corectness check', () => {
-  const file1 = getFixturePath('file1.xml');
-  const file2 = getFixturePath('file2.json');
-  expect(() => genDiff(file1, file2)).toThrow('Incorrect file format');
+test('gendiff with wrong extension test', () => {
+  const filename1 = 'file1.xml';
+  const { filename2 } = tests[0];
+  const filepath1 = getFixturePath(filename1);
+  const filepath2 = getFixturePath(filename2);
+  const wrongExtension = filename1.split('.')[1];
+  expect(() => genDiff(filepath1, filepath2)).toThrow(`Unknown format to parse: '${wrongExtension}'!`);
 });
