@@ -22,8 +22,8 @@ const stylish = (nodes) => {
       type,
       value,
       children,
-      removedValue,
-      addedValue,
+      value1,
+      value2,
     } = node;
 
     switch (type) {
@@ -40,8 +40,8 @@ const stylish = (nodes) => {
         return `\n${indent(depth)}+ ${key}: ${stringify(value, depth)}`;
       }
       case 'changed': {
-        const removed = `\n${indent(depth)}- ${key}: ${stringify(removedValue, depth)}`;
-        const added = `\n${indent(depth)}+ ${key}: ${stringify(addedValue, depth)}`;
+        const removed = `\n${indent(depth)}- ${key}: ${stringify(value1, depth)}`;
+        const added = `\n${indent(depth)}+ ${key}: ${stringify(value2, depth)}`;
         return `${removed}${added}`;
       }
       case 'unchanged': {
