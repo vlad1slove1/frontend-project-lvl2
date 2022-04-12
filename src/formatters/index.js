@@ -2,8 +2,8 @@ import stylish from './stylish.js';
 import plain from './plain.js';
 import json from './json.js';
 
-const formattedTree = (tree, format) => {
-  switch (format) {
+const format = (tree, formatName) => {
+  switch (formatName) {
     case 'stylish': {
       return stylish(tree);
     }
@@ -14,8 +14,8 @@ const formattedTree = (tree, format) => {
       return json(tree);
     }
     default:
-      throw new Error(`Unknown format to generate a tree: '${format}'!`);
+      throw new Error(`Unknown format to generate a tree: '${formatName}'!`);
   }
 };
 
-export default formattedTree;
+export default format;
