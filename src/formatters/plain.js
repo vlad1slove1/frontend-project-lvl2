@@ -13,8 +13,8 @@ const plain = (nodes) => {
       type,
       value,
       children,
-      removedValue,
-      addedValue,
+      value1,
+      value2,
     } = node;
 
     switch (type) {
@@ -31,7 +31,7 @@ const plain = (nodes) => {
         return `\nProperty '${acc}${key}' was added with value: ${stringify(value)}`;
       }
       case 'changed': {
-        return `\nProperty '${acc}${key}' was updated. From ${stringify(removedValue)} to ${stringify(addedValue)}`;
+        return `\nProperty '${acc}${key}' was updated. From ${stringify(value1)} to ${stringify(value2)}`;
       }
       case 'unchanged': {
         return '';
