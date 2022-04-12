@@ -4,8 +4,8 @@ import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import genDiff from '../src/index.js';
 import parse from '../src/parsers.js';
-import formattedTree from '../src/genTree.js';
-import diffTree from '../src/formatters/index.js';
+import buildTree from '../src/buildTree.js';
+import format from '../src/formatters/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -51,9 +51,9 @@ test('generate tree with wrong format test', () => {
   const fileContent2 = readFile(filename2);
   const parsedFile1 = parse(fileContent1, filename1.split('.')[1]);
   const parsedFile2 = parse(fileContent2, filename2.split('.')[1]);
-  const tree = formattedTree(parsedFile1, parsedFile2);
+  const tree = buildTree(parsedFile1, parsedFile2);
   const wrongFormat = 'xml';
-  expect(() => diffTree(tree, wrongFormat)).toThrow(`Unknown format to generate a tree: '${wrongFormat}'!`);
+  expect(() => format(tree, wrongFormat)).toThrow(`Unknown format to generate a tree: '${wrongFormat}'!`);
 });
 
 test('gendiff with wrong extension test', () => {
