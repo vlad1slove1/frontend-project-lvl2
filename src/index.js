@@ -1,8 +1,7 @@
-import readFile from './utils/readFile.js';
+import { readFile, getFormat } from './utils.js';
 import parse from './parsers.js';
 import buildTree from './buildTree.js';
 import format from './formatters/index.js';
-import getFormat from './utils/getFormat.js';
 
 const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
   const fileContent1 = readFile(filepath1);
