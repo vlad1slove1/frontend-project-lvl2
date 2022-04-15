@@ -3,11 +3,11 @@ const stringify = (value) => {
     return '[complex value]';
   }
 
-  return typeof (value) === 'string' ? `'${value}'` : value;
+  return typeof (value) === 'string' ? `'${value}'` : String(value);
 };
 
-const plain = (nodes) => {
-  const iter = (node, acc = '') => {
+const plain = (tree) => {
+  const iter = (node, path = '') => {
     const {
       key,
       type,
@@ -19,29 +19,31 @@ const plain = (nodes) => {
 
     switch (type) {
       case 'root': {
-        return children.map((child) => iter(child, key)).join('');
+        const result = children.flatMap((child) => iter(child, key));
+        return result.join('\n');
       }
       case 'nested': {
-        return children.map((child) => iter(child, `${acc}${key}.`)).join('');
+        const result = children.flatMap((child) => iter(child, `${path}${key}.`));
+        return result.join('\n');
       }
       case 'deleted': {
-        return `\nProperty '${acc}${key}' was removed`;
+        return `Property '${path}${key}' was removed`;
       }
       case 'added': {
-        return `\nProperty '${acc}${key}' was added with value: ${stringify(value)}`;
+        return `Property '${path}${key}' was added with value: ${stringify(value)}`;
       }
       case 'changed': {
-        return `\nProperty '${acc}${key}' was updated. From ${stringify(value1)} to ${stringify(value2)}`;
+        return `Property '${path}${key}' was updated. From ${stringify(value1)} to ${stringify(value2)}`;
       }
       case 'unchanged': {
-        return '';
+        return [];
       }
       default:
-        return null;
+        throw new Error(`Unknown type: '${type}' of node!`);
     }
   };
 
-  return iter(nodes).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+  return iter(tree);
 };
 
 export default plain;
